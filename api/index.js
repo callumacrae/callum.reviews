@@ -3,25 +3,27 @@
 const express = require('express');
 const app = express();
 const moment = require('moment');
-
 const MongoClient = require('mongodb').MongoClient;
+const Promise = require('bluebird');
 
 app.use(express.static('app'));
 
-let url = 'mongodb://localhost:27017/reviews';
-MongoClient.connect(url, function (err, db) {
-	if (err) {
-		throw err;
-	}
+let collection;
 
-	let collection = db.collection('reviews');
+let mongoConnect = Promise.promisify(MongoClient.connect);
+let mongoPromise = mongoConnect('mongodb://localhost:27017/reviews')
+	.then(function (db) {
+		collection = db.collection('reviews');
+	});
 
-	app.get('/api', function (req, res) {
-		collection.find().toArray(function (err, days) {
-			if (err) {
-				throw err;
-			}
+function findPromise(find) {
+	let findFn = collection.find(find);
+	return Promise.promisify(findFn.toArray.bind(findFn)).call();
+}
 
+app.get('/api', function (req, res) {
+	findPromise()
+		.then(function (days) {
 			let obj = {};
 
 			for (let day of days) {
@@ -30,18 +32,15 @@ MongoClient.connect(url, function (err, db) {
 
 			res.send(obj);
 		});
-	});
+});
 
-	app.post('/api', function (req) {
-		console.log('%s says you are a dick', req.ip);
+app.post('/api', function (req) {
+	console.log('%s says you are a dick', req.ip);
 
-		var date = moment().format('Do MMMM');
+	let date = moment().format('Do MMMM');
 
-		collection.find({ date: date }).toArray(function (err, days) {
-			if (err) {
-				throw err;
-			}
-
+	findPromise({ date: date })
+		.then(function (days) {
 			if (days.length) {
 				collection.update({ date: date }, {
 					$inc: { dicks: 1 }
@@ -53,12 +52,15 @@ MongoClient.connect(url, function (err, db) {
 				});
 			}
 		});
-	});
-
-	let server = app.listen(4000, function () {
-		let host = server.address().address;
-		let port = server.address().port;
-
-		console.log('Example app listening at http://%s:%s', host, port);
-	});
 });
+
+let serverPromise = Promise.promisify(app.listen.bind(app))(4000)
+
+Promise.join(mongoPromise, serverPromise)
+	.then(function () {
+		console.log('Server started');
+	})
+	.catch(function () {
+		console.log('Failed to start :(');
+		process.exit(1);
+	});

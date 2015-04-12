@@ -16,6 +16,7 @@
   "homepage": "http://callum.reviews/",
   "private": true,
   "dependencies": {
+    "bluebird": "^2.9.24",
     "browser-sync": "^2.5.3",
     "express": "^4.12.3",
     "gulp": "^3.8.11",
