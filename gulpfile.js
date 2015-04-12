@@ -3,7 +3,6 @@
 const gulp = require('gulp');
 const loadTask = require('lmn-gulp-tasks');
 const babel = require('gulp-babel');
-const browserSync = require('browser-sync');
 
 gulp.task('scss', loadTask('scss', {
 	src: './app/assets/sass/styles.scss',
@@ -44,6 +43,8 @@ gulp.task('run', function (done) {
 gulp.task('build', ['scss', 'js']);
 
 gulp.task('default', ['build', 'run'], function () {
+	const browserSync = require('browser-sync');
+
 	let files = [
 		'./app/index.html',
 		'./app/assets/build/*.js',
