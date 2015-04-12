@@ -1,7 +1,9 @@
-var gulp = require('gulp');
-var loadTask = require('lmn-gulp-tasks');
-var babel = require('gulp-babel');
-var browserSync = require('browser-sync');
+'use strict';
+
+const gulp = require('gulp');
+const loadTask = require('lmn-gulp-tasks');
+const babel = require('gulp-babel');
+const browserSync = require('browser-sync');
 
 gulp.task('scss', loadTask('scss', {
 	src: './app/assets/sass/styles.scss',
@@ -18,7 +20,7 @@ gulp.task('js', function () {
 gulp.task('build', ['scss', 'js']);
 
 gulp.task('default', ['build'], function () {
-	var files = [
+	let files = [
 		'./app/index.html',
 		'./app/assets/build/*.js',
 		'./app/assets/build/*.css'
