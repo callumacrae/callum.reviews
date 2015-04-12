@@ -1,0 +1,42 @@
+/* http://www.colourlovers.com/palette/3726935/Is..that_a_flower */
+
+:root {
+	--pink: #EB0E82;
+	--light-blue: #2863BD;
+	--dark-blue: #1B1B70;
+}
+
+body {
+	margin-top: 80px;
+
+	font-family: 'Open Sans', sans-serif;
+	text-align: center;
+
+	background-color: var(--light-blue);
+	color: var(--dark-blue);
+}
+
+h1 {
+	font-weight: 400;
+	font-size: 4em;
+}
+
+button {
+	padding: 10px 25px;
+	font-size: 2em;
+
+	background-color: color(var(--light-blue) blend(var(--dark-blue) 20%));
+	border: 2px var(--dark-blue) solid;
+	border-radius: 15px;
+	color: var(--dark-blue);
+
+	cursor: pointer;
+}
+
+.ct-chart {
+	margin-top: 50px;
+}
+
+.ct-line, .ct-point {
+	stroke: var(--pink) !important;
+}

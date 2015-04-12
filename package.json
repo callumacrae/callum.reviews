@@ -23,6 +23,7 @@
     "express": "^4.12.3",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
+    "gulp-myth": "^1.0.2",
     "minimist": "^1.1.1",
     "moment": "^2.10.2",
     "mongodb": "^2.0.27"

@@ -1,14 +1,14 @@
 'use strict';
 
 const gulp = require('gulp');
-const loadTask = require('lmn-gulp-tasks');
+const myth = require('gulp-myth');
 const babel = require('gulp-babel');
 
-gulp.task('scss', loadTask('scss', {
-	src: './app/assets/sass/styles.scss',
-	dest: './app/assets/build',
-	minify: false
-}));
+gulp.task('css', function () {
+	gulp.src('./app/assets/css/styles.css')
+		.pipe(myth())
+		.pipe(gulp.dest('./app/assets/build'));
+});
 
 gulp.task('js', function () {
 	gulp.src('./app/assets/js/script.js')
@@ -40,7 +40,7 @@ gulp.task('run', function (done) {
 		});
 });
 
-gulp.task('build', ['scss', 'js']);
+gulp.task('build', ['css', 'js']);
 
 gulp.task('default', ['build', 'run'], function () {
 	const browserSync = require('browser-sync');
@@ -55,6 +55,6 @@ gulp.task('default', ['build', 'run'], function () {
 		proxy: 'http://localhost:3025/'
 	});
 
-	gulp.watch('./app/assets/sass/*.{sass,scss}', ['scss']);
+	gulp.watch('./app/assets/css/*.css', ['css']);
 	gulp.watch('./app/assets/js/*.js', ['js']);
 });
