@@ -16,45 +16,26 @@ let mongoPromise = mongoConnect('mongodb://localhost:27017/reviews')
 		collection = db.collection('reviews');
 	});
 
-function findPromise(find) {
-	let findFn = collection.find(find);
-	return Promise.promisify(findFn.toArray.bind(findFn)).call();
-}
-
 app.get('/api', function (req, res) {
-	findPromise()
-		.then(function (days) {
-			let obj = {};
+	collection.find().toArray(function (err, days) {
+		let obj = {};
 
-			for (let day of days) {
-				obj[day.date] = day.dicks;
-			}
+		for (let day of days) {
+			obj[day.date] = day.dicks;
+		}
 
-			res.send(obj);
-		});
+		res.send(obj);
+	});
 });
 
 app.post('/api', function (req) {
 	console.log('%s says you are a dick', req.ip);
 
 	let date = moment().format('Do MMMM');
-
-	findPromise({ date: date })
-		.then(function (days) {
-			if (days.length) {
-				collection.update({ date: date }, {
-					$inc: { dicks: 1 }
-				});
-			} else {
-				collection.insert({
-					date: date,
-					dicks: 1
-				});
-			}
-		});
+	collection.update({ date: date }, { $inc: { dicks: 1 }}, { upsert: true });
 });
 
-let serverPromise = Promise.promisify(app.listen.bind(app))(4000)
+let serverPromise = Promise.promisify(app.listen.bind(app))(4000);
 
 Promise.join(mongoPromise, serverPromise)
 	.then(function () {
