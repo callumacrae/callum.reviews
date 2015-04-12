@@ -17,9 +17,33 @@ gulp.task('js', function () {
 		.pipe(gulp.dest('./app/assets/build'));
 });
 
+// This task is for development only
+gulp.task('run', function (done) {
+	// devDependencies required in tasks
+	const nodemon = require('nodemon');
+	const chalk = require('chalk');
+
+	function doneOnce() {
+		done();
+		doneOnce = function () {};
+	}
+
+	nodemon('--watch api ./api')
+		.on('start', function () {
+			console.log(chalk.grey('App has started'));
+			doneOnce();
+		})
+		.on('restart', function () {
+			console.log(chalk.grey('App restarting'));
+		})
+		.on('crash', function () {
+			console.log(chalk.grey('App has crashed'));
+		});
+});
+
 gulp.task('build', ['scss', 'js']);
 
-gulp.task('default', ['build'], function () {
+gulp.task('default', ['build', 'run'], function () {
 	let files = [
 		'./app/index.html',
 		'./app/assets/build/*.js',

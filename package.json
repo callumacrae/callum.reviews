@@ -2,6 +2,8 @@
   "name": "callum.reviews",
   "version": "1.0.0",
   "scripts": {
+    "build": "gulp build",
+    "start": "node ./api",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,5 +26,9 @@
     "lmn-gulp-tasks": "^1.3.6",
     "moment": "^2.10.2",
     "mongodb": "^2.0.27"
+  },
+  "devDependencies": {
+    "chalk": "^1.0.0",
+    "nodemon": "^1.3.7"
   }
 }
