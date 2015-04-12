@@ -11,12 +11,6 @@ button.addEventListener('click', function () {
 	xhr.send();
 });
 
-function pluck(ary, prop) {
-	return ary.map(function (item) {
-		return item[prop];
-	});
-}
-
 let xhr = new XMLHttpRequest();
 xhr.open('GET', '/api');
 xhr.responseType = 'json';
