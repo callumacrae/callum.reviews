@@ -1,0 +1,27 @@
+{
+  "name": "callum.reviews",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/callumacrae/callum.reviews"
+  },
+  "author": "Callum Macrae <callum@macr.ae>",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/callumacrae/callum.reviews/issues"
+  },
+  "homepage": "http://callum.reviews/",
+  "private": true,
+  "dependencies": {
+    "browser-sync": "^2.5.3",
+    "express": "^4.12.3",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
+    "lmn-gulp-tasks": "^1.3.6",
+    "moment": "^2.10.2",
+    "mongodb": "^2.0.27"
+  }
+}
