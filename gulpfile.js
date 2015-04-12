@@ -28,7 +28,7 @@ gulp.task('run', function (done) {
 		doneOnce = function () {};
 	}
 
-	nodemon('--watch api ./api')
+	nodemon('--watch api ./api --port 3025')
 		.on('start', function () {
 			console.log(chalk.grey('App has started'));
 			doneOnce();
@@ -51,7 +51,7 @@ gulp.task('default', ['build', 'run'], function () {
 	];
 
 	browserSync.init(files, {
-		proxy: 'http://localhost:4000/'
+		proxy: 'http://localhost:3025/'
 	});
 
 	gulp.watch('./app/assets/sass/*.{sass,scss}', ['scss']);

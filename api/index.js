@@ -1,5 +1,6 @@
 'use strict';
 
+const argv = require('minimist')(process.argv.slice(2));
 const express = require('express');
 const app = express();
 const moment = require('moment');
@@ -35,7 +36,7 @@ app.post('/api', function (req) {
 	collection.update({ date: date }, { $inc: { dicks: 1 }}, { upsert: true });
 });
 
-let serverPromise = Promise.promisify(app.listen.bind(app))(4000);
+let serverPromise = Promise.promisify(app.listen.bind(app))(argv.port || 3000);
 
 Promise.join(mongoPromise, serverPromise)
 	.then(function () {
