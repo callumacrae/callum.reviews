@@ -6,9 +6,14 @@ let button = document.querySelector('button');
 button.addEventListener('click', function () {
 	this.innerHTML = '&#x1F620; Thanks for your feedback &#x1F620;';
 
-	let xhr = new XMLHttpRequest();
-	xhr.open('POST', '/api');
-	xhr.send();
+	let lastDate = localStorage.getItem('last-dick');
+	if (lastDate < Date.now() - 9e5) {
+		localStorage.setItem('last-dick', Date.now());
+
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST', '/api');
+		xhr.send();
+	}
 });
 
 let xhr = new XMLHttpRequest();
