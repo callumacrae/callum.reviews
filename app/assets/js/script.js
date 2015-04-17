@@ -10,38 +10,32 @@ button.addEventListener('click', function () {
 	if (lastDate < Date.now() - 9e5) {
 		localStorage.setItem('last-dick', Date.now());
 
-		let xhr = new XMLHttpRequest();
-		xhr.open('POST', '/api');
-		xhr.send();
+		fetch('/api', { method: 'post' });
 	}
 });
 
-let xhr = new XMLHttpRequest();
-xhr.open('GET', '/api');
-xhr.responseType = 'json';
+fetch('/api')
+	.then(res => res.json())
+	.then(function (data) {
+		let labels = [];
+		let series = [];
 
-xhr.onload = function () {
-	let labels = [];
-	let series = [];
-
-	for (let day in xhr.response) {
-		if (xhr.response.hasOwnProperty(day)) {
-			labels.push(day);
-			series.push(xhr.response[day]);
+		for (let day in data) {
+			if (data.hasOwnProperty(day)) {
+				labels.push(day);
+				series.push(data[day]);
+			}
 		}
-	}
 
-	new Chartist.Line('.ct-chart', {
-		labels: labels,
-		series: [ series ]
-	}, {
-		low: 0,
-		height: 400,
-		fullWidth: true,
-		chartPadding: {
-			right: 40
-		}
+		new Chartist.Line('.ct-chart', {
+			labels: labels,
+			series: [ series ]
+		}, {
+			low: 0,
+			height: 400,
+			fullWidth: true,
+			chartPadding: {
+				right: 40
+			}
+		});
 	});
-};
-
-xhr.send();
