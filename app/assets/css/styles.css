@@ -7,7 +7,7 @@
 }
 
 body {
-	margin-top: 80px;
+	margin-top: 4em;
 
 	font-family: 'Open Sans', sans-serif;
 	text-align: center;
@@ -39,4 +39,14 @@ button {
 
 .ct-line, .ct-point {
 	stroke: var(--pink) !important;
+}
+
+@media screen and (max-width: 500px) {
+	body {
+		font-size: 8pt;
+	}
+
+	.github-banner {
+		display: none;
+	}
 }
