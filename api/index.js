@@ -17,7 +17,8 @@ let mongoPromise = mongoConnect('mongodb://localhost:27017/reviews')
 		collection = db.collection('reviews');
 	});
 
-app.get('/api', function (req, res) {
+app.get('/api', getApi);
+function getApi(req, res) {
 	collection.find().toArray(function (err, days) {
 		let obj = {};
 
@@ -27,13 +28,15 @@ app.get('/api', function (req, res) {
 
 		res.send(obj);
 	});
-});
+}
 
-app.post('/api', function (req) {
+app.post('/api', function (req, res) {
 	console.log('%s says you are a dick', req.ip);
 
 	let date = moment().format('Do MMMM');
-	collection.update({ date: date }, { $inc: { dicks: 1 }}, { upsert: true });
+	collection.update({ date: date }, { $inc: { dicks: 1 }}, { upsert: true }, function () {
+		getApi(req, res);
+	});
 });
 
 let serverPromise = Promise.promisify(app.listen.bind(app))(argv.port || 3000);
