@@ -2,9 +2,11 @@
 
 'use strict';
 
+const angryEmoji = '&#x1F620;';
+
 let button = document.querySelector('button');
 button.addEventListener('click', function () {
-	this.innerHTML = '&#x1F620; Thanks for your feedback &#x1F620;';
+	this.innerHTML = `${angryEmoji} Thanks for your feedback ${angryEmoji}`;
 
 	let lastDate = localStorage.getItem('last-dick');
 	if (lastDate < Date.now() - 9e5) {
