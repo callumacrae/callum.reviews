@@ -17,16 +17,14 @@ let mongoPromise = mongoConnect('mongodb://localhost:27017/reviews')
 		collection = db.collection('reviews');
 	});
 
-app.get('/api', getApi);
-function getApi(req, res) {
+app.get('/api', sendData);
+function sendData(req, res) {
 	collection.find().toArray(function (err, days) {
-		let obj = {};
-
-		for (let day of days) {
-			obj[day.date] = day.dicks;
+		if (err) {
+			return res.status(500).send(err);
 		}
 
-		res.send(obj);
+		res.send(days);
 	});
 }
 
@@ -35,7 +33,7 @@ app.post('/api', function (req, res) {
 
 	let date = moment().format('Do MMMM');
 	collection.update({ date: date }, { $inc: { dicks: 1 }}, { upsert: true }, function () {
-		getApi(req, res);
+		sendData(req, res);
 	});
 });
 

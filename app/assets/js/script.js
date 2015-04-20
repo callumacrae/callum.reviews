@@ -23,15 +23,8 @@ fetch('/api')
 	.then(drawGraph);
 
 function drawGraph(data) {
-	let labels = [];
-	let series = [];
-
-	for (let day in data) {
-		if (data.hasOwnProperty(day)) {
-			labels.push(day);
-			series.push(data[day]);
-		}
-	}
+	let labels = data.map((day) => day.date);
+	let series = data.map((day) => day.dicks);
 
 	new Chartist.Line('.ct-chart', {
 		labels: labels,
