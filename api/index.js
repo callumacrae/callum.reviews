@@ -31,7 +31,7 @@ function sendData(req, res) {
 app.post('/api', function (req, res) {
 	console.log('%s says you are a dick', req.ip);
 
-	let date = moment().format('Do MMMM');
+	let date = moment().format('Do MMMM YYYY');
 	collection.update({ date: date }, { $inc: { dicks: 1 }}, { upsert: true }, function () {
 		sendData(req, res);
 	});
