@@ -26,7 +26,7 @@
     "gulp-myth": "^1.0.2",
     "minimist": "^1.1.1",
     "moment": "^2.10.2",
-    "mongodb": "^2.0.27"
+    "mongodb": "^3.6.1"
   },
   "devDependencies": {
     "chalk": "^1.0.0",
